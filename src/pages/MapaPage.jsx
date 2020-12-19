@@ -1,33 +1,23 @@
-import React, { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
+import React from 'react';
+import { useMapbox } from '../hooks/useMapbox';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiZWZyYWluZHJ1bWVyIiwiYSI6ImNraXVwNGlkbjMxZnkycXFqcnJmNDIwZ2gifQ.z85HcvC_sR44zaEewj8Dsg';
 const puntoInicial = {
-    lng: 5,
-    lat: 34,
-    zoom: 10
+    lng:  -122.4701 ,
+    lat: 37.7986,
+    zoom: 13.5
 }
 
 export const MapaPage = () => {
 
-    const mapaDiv = useRef();
-    const [, setMapa] = useState();
-
-    useEffect(() => {
-        const map = new mapboxgl.Map({
-            container: mapaDiv.current,
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [ puntoInicial.lng, puntoInicial.lat ],
-            zoom: puntoInicial.zoom
-        });
-
-        setMapa(map);
-    }, [])
+    const { setRef, coords } = useMapbox(puntoInicial);
 
     return (
         <>
+            <div className="info">
+                longitud: { coords.lng } | latitud: {coords.lat} | zoom { coords.zoom }
+            </div>
             <div 
-                ref={mapaDiv}
+                ref={setRef}
                 className="mapContainer"
             />   
         </>
